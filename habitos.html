@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bruxaria dos Hábitos 🌿</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-deep: #1a2e1a;
+    --green-mid: #2d5a27;
+    --green-bright: #639922;
+    --green-light: #97C459;
+    --green-pale: #EAF3DE;
+    --terra: #B5572A;
+    --cream: #F5ECD7;
+    --cream-dark: #e8d9c0;
+    --gold: #C9A84C;
+    --brown: #3E2723;
+    --text: #1a1a1a;
+    --text-muted: #6b6b5e;
+    --text-faint: #a0a090;
+    --bg: #faf7f2;
+    --card: #ffffff;
+    --border: rgba(62,39,35,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 10% 0%, rgba(99,153,34,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 100%, rgba(181,87,42,0.06) 0%, transparent 50%);
+  }
+
+  header {
+    text-align: center;
+    padding: 3rem 1rem 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+    background: linear-gradient(180deg, rgba(245,236,215,0.6) 0%, transparent 100%);
+  }
+  header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terra);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 600;
+    color: var(--green-deep);
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--green-mid);
+  }
+  header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  main { max-width: 700px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+  /* Plant card */
+  .plant-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    box-shadow: 0 2px 24px rgba(26,46,26,0.06);
+  }
+  .plant-visual { flex-shrink: 0; position: relative; }
+  .plant-svg { display: block; }
+  .plant-info { flex: 1; }
+  .level-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--green-mid);
+    background: var(--green-pale);
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin-bottom: 0.5rem;
+  }
+  .plant-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--green-deep);
+    margin-bottom: 0.25rem;
+  }
+  .plant-flavor {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .xp-section { margin-bottom: 0.5rem; }
+  .xp-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+  .xp-row strong { color: var(--text); font-weight: 500; }
+  .bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--green-pale);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-mid), var(--green-bright));
+    border-radius: 99px;
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .stat-box {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--green-deep);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.04em; }
+
+  /* Habits */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .habit-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s;
+  }
+  .habit-card:hover { box-shadow: 0 4px 20px rgba(26,46,26,0.08); }
+
+  .habit-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .habit-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .habit-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+  .habit-badges { display: flex; gap: 6px; align-items: center; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+  .badge-xp { background: var(--green-pale); color: var(--green-mid); }
+  .badge-progress { background: var(--cream); color: var(--terra); }
+  .badge-streak { background: #FFF3E0; color: #E65100; }
+
+  .days-grid {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .day-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    position: relative;
+    font-family: 'Jost', sans-serif;
+  }
+  .day-btn:hover { border-color: var(--green-bright); color: var(--green-mid); }
+  .day-btn.done {
+    background: var(--green-mid);
+    border-color: var(--green-mid);
+    color: #fff;
+  }
+  .day-btn.done::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;
+  }
+  .day-btn.today { box-shadow: 0 0 0 2px var(--green-light); }
+  .day-label {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 4px;
+    text-align: center;
+    width: 36px;
+  }
+  .days-wrap { display: flex; flex-direction: column; align-items: center; }
+
+  /* Add habit */
+  .add-card {
+    background: var(--card);
+    border: 0.5px dashed var(--cream-dark);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .add-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--green-deep);
+    margin-bottom: 1rem;
+  }
+  .add-fields { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .add-fields input, .add-fields select {
+    padding: 9px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .add-fields input:focus, .add-fields select:focus { border-color: var(--green-bright); }
+  .add-fields input { flex: 1; min-width: 180px; }
+  .add-btn {
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    background: var(--green-mid);
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .add-btn:hover { background: var(--green-deep); }
+  .add-btn:active { transform: scale(0.97); }
+
+  /* Delete button */
+  .del-btn {
+    background: none;
+    border: none;
+    color: var(--text-faint);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    margin-left: 4px;
+  }
+  .del-btn:hover { color: #c0392b; background: #ffeaea; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--green-deep);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+    font-family: 'Jost', sans-serif;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Level up animation */
+  @keyframes popIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .pop { animation: popIn 0.45s cubic-bezier(.4,0,.2,1) both; }
+
+  /* Notion tip */
+  .notion-tip {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    border: 0.5px solid var(--cream-dark);
+    margin-top: 1.5rem;
+  }
+  .notion-tip p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .notion-tip strong { color: var(--terra); font-weight: 500; }
+  .notion-tip code {
+    font-family: monospace;
+    font-size: 12px;
+    background: var(--cream-dark);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--brown);
+  }
+
+  @media (max-width: 520px) {
+    .plant-card { flex-direction: column; text-align: center; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">seus hábitos com magia</div>
+  <h1>Bruxaria <em>dos Hábitos</em></h1>
+  <p>Complete suas missões, ganhe XP e veja sua plantinha crescer</p>
+</header>
+
+<main>
+
+  <!-- Plant card -->
+  <div class="plant-card">
+    <div class="plant-visual">
+      <div id="plant-svg" class="plant-svg"></div>
+    </div>
+    <div class="plant-info">
+      <div class="level-tag" id="level-tag">Nível 1</div>
+      <div class="plant-name" id="plant-name">Sementinha</div>
+      <div class="plant-flavor" id="plant-flavor">"Toda floresta começa com uma semente..."</div>
+      <div class="xp-section">
+        <div class="xp-row">
+          <span>XP total: <strong id="xp-total">0</strong></span>
+          <span id="xp-next-label">próximo nível: 50 XP</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill" id="xp-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num" id="stat-checks">0</div>
+      <div class="stat-lbl">checks esta semana</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="stat-streak">0</div>
+      <div class="stat-lbl">maior sequência</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="stat-habits">1</div>
+      <div class="stat-lbl">hábitos ativos</div>
+    </div>
+  </div>
+
+  <!-- Habits list -->
+  <div class="section-label">seus hábitos</div>
+  <div id="habits-container"></div>
+
+  <!-- Add habit -->
+  <div class="add-card">
+    <div class="add-title">Adicionar novo hábito</div>
+    <div class="add-fields">
+      <input type="text" id="habit-input" placeholder="Ex: Meditar 10 minutos"/>
+      <select id="freq-select">
+        <option value="3">3x por semana</option>
+        <option value="5">5x por semana</option>
+        <option value="7">Diário</option>
+        <option value="1">1x por semana</option>
+        <option value="2">2x por semana</option>
+      </select>
+    </div>
+    <button class="add-btn" onclick="addHabit()">+ Adicionar hábito</button>
+  </div>
+
+  <!-- Notion tip -->
+  <div class="notion-tip">
+    <p><strong>Como usar no Notion:</strong> Cole a URL deste site em qualquer página do Notion, clique em <em>Criar embed</em> e o widget aparece direto na sua página de hábitos. Use <code>/embed</code> e cole o link.</p>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DAYS_LABEL = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+const LEVELS = [
+  { name:'Sementinha',  flavor:'"Toda floresta começa com uma semente..."',        xp:0,    next:50   },
+  { name:'Broto',       flavor:'"Algo está nascendo dentro de você."',             xp:50,   next:120  },
+  { name:'Mudinha',     flavor:'"Raízes se formam antes dos galhos."',             xp:120,  next:250  },
+  { name:'Plantinha',   flavor:'"Você está crescendo com intenção."',              xp:250,  next:450  },
+  { name:'Arbusto',     flavor:'"Sua consistência é visível agora."',              xp:450,  next:700  },
+  { name:'Árvore',      flavor:'"O hábito virou parte de quem você é."',           xp:700,  next:1000 },
+  { name:'Floresta',    flavor:'"Você é uma bruxa dos hábitos. Floresta completa."', xp:1000, next:9999 },
+];
+
+const PLANTS = [
+  // 0 semente
+  `<svg width="120" height="120" viewBox="0 0 120 120"><ellipse cx="60" cy="98" rx="28" ry="8" fill="#C0DD97" opacity="0.35"/><ellipse cx="60" cy="88" rx="13" ry="10" fill="#B5572A"/><ellipse cx="60" cy="83" rx="9" ry="6" fill="#97C459" opacity="0.8"/></svg>`,
+  // 1 broto
+  `<svg width="120" height="120" viewBox="0 0 120 120"><ellipse cx="60" cy="100" rx="30" ry="8" fill="#C0DD97" opacity="0.3"/><line x1="60" y1="98" x2="60" y2="65" stroke="#3B6D11" stroke-width="3" stroke-linecap="round"/><ellipse cx="60" cy="62" rx="13" ry="10" fill="#97C459"/></svg>`,
+  // 2 mudinha
+  `<svg width="120" height="120" viewBox="0 0 120 120"><ellipse cx="60" cy="103" rx="32" ry="8" fill="#C0DD97" opacity="0.3"/><line x1="60" y1="101" x2="60" y2="58" stroke="#3B6D11" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="60" cy="54" rx="17" ry="12" fill="#639922"/><ellipse cx="43" cy="72" rx="11" ry="7" fill="#97C459" transform="rotate(-30,43,72)"/><ellipse cx="77" cy="72" rx="11" ry="7" fill="#97C459" transform="rotate(30,77,72)"/></svg>`,
+  // 3 plantinha
+  `<svg width="130" height="130" viewBox="0 0 130 130"><ellipse cx="65" cy="116" rx="36" ry="9" fill="#C0DD97" opacity="0.3"/><line x1="65" y1="114" x2="65" y2="64" stroke="#27500A" stroke-width="4" stroke-linecap="round"/><ellipse cx="65" cy="59" rx="22" ry="16" fill="#3B6D11"/><ellipse cx="46" cy="79" rx="14" ry="9" fill="#639922" transform="rotate(-35,46,79)"/><ellipse cx="84" cy="79" rx="14" ry="9" fill="#639922" transform="rotate(35,84,79)"/><ellipse cx="65" cy="44" rx="13" ry="10" fill="#97C459"/></svg>`,
+  // 4 arbusto
+  `<svg width="140" height="140" viewBox="0 0 140 140"><ellipse cx="70" cy="126" rx="44" ry="10" fill="#C0DD97" opacity="0.3"/><line x1="70" y1="124" x2="70" y2="72" stroke="#27500A" stroke-width="5" stroke-linecap="round"/><ellipse cx="70" cy="65" rx="27" ry="20" fill="#27500A"/><ellipse cx="46" cy="86" rx="18" ry="12" fill="#3B6D11" transform="rotate(-38,46,86)"/><ellipse cx="94" cy="86" rx="18" ry="12" fill="#3B6D11" transform="rotate(38,94,86)"/><ellipse cx="70" cy="48" rx="18" ry="14" fill="#639922"/><ellipse cx="50" cy="59" rx="12" ry="8" fill="#97C459" transform="rotate(-20,50,59)"/><ellipse cx="90" cy="59" rx="12" ry="8" fill="#97C459" transform="rotate(20,90,59)"/></svg>`,
+  // 5 árvore
+  `<svg width="150" height="160" viewBox="0 0 150 160"><ellipse cx="75" cy="148" rx="50" ry="10" fill="#C0DD97" opacity="0.3"/><rect x="68" y="100" width="14" height="48" rx="4" fill="#633806"/><ellipse cx="75" cy="97" rx="36" ry="27" fill="#27500A"/><ellipse cx="75" cy="78" rx="26" ry="20" fill="#3B6D11"/><ellipse cx="75" cy="62" rx="20" ry="16" fill="#639922"/><ellipse cx="52" cy="92" rx="17" ry="11" fill="#3B6D11" transform="rotate(-25,52,92)"/><ellipse cx="98" cy="92" rx="17" ry="11" fill="#3B6D11" transform="rotate(25,98,92)"/><ellipse cx="75" cy="48" rx="12" ry="10" fill="#97C459"/></svg>`,
+  // 6 floresta
+  `<svg width="160" height="170" viewBox="0 0 160 170"><ellipse cx="80" cy="158" rx="70" ry="11" fill="#C0DD97" opacity="0.3"/><rect x="74" y="115" width="12" height="43" rx="3" fill="#412402"/><rect x="28" y="122" width="9" height="36" rx="3" fill="#633806"/><rect x="123" y="126" width="9" height="32" rx="3" fill="#633806"/><ellipse cx="33" cy="114" rx="24" ry="18" fill="#27500A"/><ellipse cx="127" cy="118" rx="21" ry="16" fill="#27500A"/><ellipse cx="80" cy="108" rx="40" ry="30" fill="#27500A"/><ellipse cx="80" cy="87" rx="30" ry="23" fill="#3B6D11"/><ellipse cx="80" cy="68" rx="22" ry="18" fill="#639922"/><ellipse cx="80" cy="52" rx="14" ry="12" fill="#97C459"/><ellipse cx="54" cy="100" rx="16" ry="10" fill="#3B6D11" transform="rotate(-22,54,100)"/><ellipse cx="106" cy="100" rx="16" ry="10" fill="#3B6D11" transform="rotate(22,106,100)"/></svg>`,
+];
+
+function getWeekKeys() {
+  const keys = [];
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    keys.push(d.toISOString().slice(0,10));
+  }
+  return keys;
+}
+
+function saveState() {
+  localStorage.setItem('bruxaria-habitos', JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = localStorage.getItem('bruxaria-habitos');
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return {
+    habits: [{ id: 1, name: 'Academia', freq: 3, xpPer: 15, days: {} }]
+  };
+}
+
+let state = loadState();
+let prevLevel = 0;
+
+function calcTotalXP() {
+  let xp = 0;
+  state.habits.forEach(h => {
+    Object.values(h.days).forEach(v => { if (v) xp += h.xpPer; });
+  });
+  return xp;
+}
+
+function getLevel(xp) {
+  let lv = 0;
+  for (let i = 0; i < LEVELS.length; i++) {
+    if (xp >= LEVELS[i].xp) lv = i;
+  }
+  return lv;
+}
+
+function getStreak(habit) {
+  const now = new Date();
+  let streak = 0;
+  for (let i = 0; i < 60; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const k = d.toISOString().slice(0,10);
+    if (habit.days[k]) streak++;
+    else if (i > 0) break;
+  }
+  return streak;
+}
+
+function getBestStreak() {
+  let best = 0;
+  state.habits.forEach(h => { const s = getStreak(h); if (s > best) best = s; });
+  return best;
+}
+
+function getWeekChecks() {
+  const keys = getWeekKeys();
+  let total = 0;
+  state.habits.forEach(h => { keys.forEach(k => { if (h.days[k]) total++; }); });
+  return total;
+}
+
+function xpPerFreq(freq) {
+  if (freq >= 7) return 10;
+  if (freq >= 5) return 12;
+  if (freq >= 3) return 15;
+  if (freq >= 2) return 18;
+  return 22;
+}
+
+function freqLabel(freq) {
+  if (freq === 7) return 'Diário';
+  if (freq === 1) return '1x por semana';
+  return freq + 'x por semana';
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function toggleDay(habitId, dateKey) {
+  const h = state.habits.find(x => x.id === habitId);
+  if (!h) return;
+  const was = h.days[dateKey];
+  h.days[dateKey] = !was;
+  saveState();
+  const xp = calcTotalXP();
+  const lv = getLevel(xp);
+  if (!was) {
+    if (lv > prevLevel) {
+      showToast('Subiu de nível! Agora você é: ' + LEVELS[lv].name + ' ');
+    } else {
+      showToast('+' + h.xpPer + ' XP conquistados!');
+    }
+  }
+  render();
+}
+
+function deleteHabit(id) {
+  state.habits = state.habits.filter(h => h.id !== id);
+  saveState();
+  showToast('Hábito removido');
+  render();
+}
+
+function addHabit() {
+  const inp = document.getElementById('habit-input');
+  const sel = document.getElementById('freq-select');
+  const name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  const freq = parseInt(sel.value);
+  state.habits.push({ id: Date.now(), name, freq, xpPer: xpPerFreq(freq), days: {} });
+  inp.value = '';
+  saveState();
+  showToast('Novo hábito adicionado! A plantinha ficou feliz');
+  render();
+}
+
+document.getElementById('habit-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addHabit();
+});
+
+function render() {
+  const totalXP = calcTotalXP();
+  const lv = getLevel(totalXP);
+  prevLevel = lv;
+  const lvData = LEVELS[lv];
+  const nextLvData = LEVELS[Math.min(lv+1, LEVELS.length-1)];
+  const xpInLv = totalXP - lvData.xp;
+  const xpNeeded = nextLvData.xp - lvData.xp;
+  const pct = lv >= 6 ? 100 : Math.min(100, Math.round(xpInLv / xpNeeded * 100));
+
+  document.getElementById('level-tag').textContent = 'Nível ' + (lv+1);
+  document.getElementById('plant-name').textContent = lvData.name;
+  document.getElementById('plant-flavor').textContent = lvData.flavor;
+  document.getElementById('xp-total').textContent = totalXP;
+  document.getElementById('xp-next-label').textContent = lv >= 6 ? 'nível máximo!' : 'próximo nível: ' + nextLvData.xp + ' XP';
+  document.getElementById('xp-bar').style.width = pct + '%';
+
+  const plantEl = document.getElementById('plant-svg');
+  plantEl.innerHTML = PLANTS[lv];
+  plantEl.classList.remove('pop');
+  void plantEl.offsetWidth;
+  plantEl.classList.add('pop');
+
+  document.getElementById('stat-checks').textContent = getWeekChecks();
+  document.getElementById('stat-streak').textContent = getBestStreak();
+  document.getElementById('stat-habits').textContent = state.habits.length;
+
+  const weekKeys = getWeekKeys();
+  const container = document.getElementById('habits-container');
+  container.innerHTML = '';
+
+  state.habits.forEach(habit => {
+    const weekDone = weekKeys.filter(k => habit.days[k]).length;
+    const streak = getStreak(habit);
+
+    const card = document.createElement('div');
+    card.className = 'habit-card';
+
+    const top = document.createElement('div');
+    top.className = 'habit-top';
+
+    const left = document.createElement('div');
+    const nameEl = document.createElement('div');
+    nameEl.className = 'habit-name';
+    nameEl.textContent = habit.name;
+    const metaEl = document.createElement('div');
+    metaEl.className = 'habit-meta';
+    metaEl.textContent = freqLabel(habit.freq) + ' · +' + habit.xpPer + ' XP por check';
+    left.appendChild(nameEl);
+    left.appendChild(metaEl);
+
+    const badges = document.createElement('div');
+    badges.className = 'habit-badges';
+
+    const bxp = document.createElement('span');
+    bxp.className = 'badge badge-xp';
+    bxp.textContent = weekDone + '/' + habit.freq + ' semana';
+    badges.appendChild(bxp);
+
+    if (streak >= 2) {
+      const bs = document.createElement('span');
+      bs.className = 'badge badge-streak';
+      bs.textContent = streak + ' dias';
+      badges.appendChild(bs);
+    }
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'del-btn';
+    delBtn.title = 'Remover hábito';
+    delBtn.textContent = '×';
+    delBtn.onclick = () => deleteHabit(habit.id);
+    badges.appendChild(delBtn);
+
+    top.appendChild(left);
+    top.appendChild(badges);
+    card.appendChild(top);
+
+    const daysRow = document.createElement('div');
+    daysRow.className = 'days-grid';
+
+    weekKeys.forEach((key, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'days-wrap';
+
+      const isToday = i === 6;
+      const btn = document.createElement('button');
+      btn.className = 'day-btn' + (habit.days[key] ? ' done' : '') + (isToday ? ' today' : '');
+      btn.title = key;
+      btn.setAttribute('aria-label', DAYS_LABEL[(new Date(key+'T12:00:00')).getDay()] + (habit.days[key] ? ' concluído' : ''));
+      btn.onclick = () => toggleDay(habit.id, key);
+
+      const lbl = document.createElement('div');
+      lbl.className = 'day-label';
+      lbl.textContent = DAYS_LABEL[(new Date(key+'T12:00:00')).getDay()].slice(0,3);
+
+      wrap.appendChild(btn);
+      wrap.appendChild(lbl);
+      daysRow.appendChild(wrap);
+    });
+
+    card.appendChild(daysRow);
+    container.appendChild(card);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
